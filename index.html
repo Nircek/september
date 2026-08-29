@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="description"
+      content="Minimalistyczny magazyn spraw na wrzesień bez presji dziennych targetów."
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Wrzesień</title>
+  </head>
+  <body>
+    <main class="app">
+      <header class="card">
+        <h1>Wrzesień</h1>
+        <p class="muted">Magazyn ważnych rzeczy. Bez dziennego długu.</p>
+      </header>
+
+      <section class="card">
+        <h2>Co chcesz teraz zrobić?</h2>
+        <div class="actions">
+          <button type="button" data-view="act">Chcę coś zrobić</button>
+          <button type="button" data-view="capture">Coś mi się przypomniało</button>
+          <button type="button" data-view="store">Chcę sprawdzić magazyn</button>
+          <button type="button" data-view="checkin">Nie wiem</button>
+        </div>
+      </section>
+
+      <section id="capture" class="card hidden">
+        <h2>Szybkie zapisanie</h2>
+        <form id="add-form">
+          <label>
+            Rzecz
+            <input
+              name="title"
+              type="text"
+              maxlength="200"
+              required
+              placeholder="Np. sprawdzić dokumenty do dziekanatu"
+            />
+          </label>
+          <label>
+            Tryb (opcjonalnie)
+            <select name="mode">
+              <option value="">Bez klasyfikacji</option>
+              <option value="deadline">TERMIN</option>
+              <option value="block">BLOK</option>
+              <option value="iteration">ITERACJA</option>
+              <option value="exploration">EKSPLORACJA</option>
+            </select>
+          </label>
+          <label>
+            Termin (opcjonalnie)
+            <input name="deadline" type="date" />
+          </label>
+          <label>
+            Notatki (opcjonalnie)
+            <textarea name="notes" rows="3"></textarea>
+          </label>
+          <button type="submit">Zapisz</button>
+        </form>
+        <p id="capture-feedback" class="ok hidden">Zapisane.</p>
+      </section>
+
+      <section id="checkin" class="card hidden">
+        <h2>Krótki check-in</h2>
+        <p class="muted">Czy możesz sensownie zrobić coś teraz?</p>
+        <div class="actions">
+          <button type="button" data-checkin="can-now">Mogę teraz</button>
+          <button type="button" data-checkin="wrong-context">Nie ten kontekst</button>
+          <button type="button" data-checkin="low-resources">Nie te zasoby</button>
+          <button type="button" data-checkin="blocked">Blokada</button>
+        </div>
+      </section>
+
+      <section id="act" class="card hidden">
+        <h2>Co może pasować teraz</h2>
+        <p class="muted">To propozycje, nie przydział.</p>
+        <ul id="suggestions" class="items"></ul>
+        <p id="suggestions-empty" class="muted hidden">Możesz nic nie wybierać. To też jest OK.</p>
+      </section>
+
+      <section id="store" class="card hidden">
+        <h2>Magazyn</h2>
+        <label>
+          Szukaj
+          <input id="search" type="search" placeholder="Szukaj po nazwie lub notatce" />
+        </label>
+        <ul id="store-list" class="items"></ul>
+        <p id="store-empty" class="muted hidden">Magazyn jest pusty.</p>
+      </section>
+    </main>
+
+    <template id="item-template">
+      <li class="item">
+        <details>
+          <summary>
+            <span class="item-title"></span>
+            <span class="chip item-status"></span>
+            <span class="chip item-mode"></span>
+          </summary>
+          <div class="stack">
+            <label>
+              Status
+              <select class="field-status">
+                <option value="stored">przechowywana</option>
+                <option value="available">aktualnie dostępna</option>
+                <option value="done">zakończona</option>
+                <option value="paused">odłożona / nieważna</option>
+              </select>
+            </label>
+            <label>
+              Tryb
+              <select class="field-mode">
+                <option value="">brak</option>
+                <option value="deadline">TERMIN</option>
+                <option value="block">BLOK</option>
+                <option value="iteration">ITERACJA</option>
+                <option value="exploration">EKSPLORACJA</option>
+              </select>
+            </label>
+            <label>
+              Termin
+              <input class="field-deadline" type="date" />
+            </label>
+            <label class="calendar-field hidden">
+              Termin zabezpieczony w kalendarzu
+              <input class="field-calendar" type="checkbox" />
+            </label>
+            <label>
+              Notatki
+              <textarea class="field-notes" rows="3"></textarea>
+            </label>
+            <div class="actions row">
+              <button type="button" class="save-item">Zapisz zmiany</button>
+              <button type="button" class="delete-item ghost">Usuń</button>
+            </div>
+            <p class="muted item-guidance"></p>
+          </div>
+        </details>
+      </li>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
