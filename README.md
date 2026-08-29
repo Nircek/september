@@ -2,16 +2,39 @@
 
 To repozytorium startuje od podejścia **intent-driven development**: najpierw definiujemy intencję produktu i logikę biznesową, a dopiero potem dobieramy implementację techniczną. Folder `/intent` jest źródłem prawdy dla założeń domenowych i ma pierwszeństwo nad bieżącym stosem technologicznym.
 
-## Prompt startowy dla agenta
+## O projekcie
 
-Przeczytaj pliki intencji w dokładnie tej kolejności:
-1. `intent/01-audience.md`
-2. `intent/02-experiment.md`
-3. `intent/03-behaviors.md`
+`Wrzesień` to minimalistyczna aplikacja webowa działająca jako PWA i zapisująca dane lokalnie w przeglądarce (`localStorage`).
 
-Następnie:
-- zachowaj powyższy paragraf o intent-driven development bez usuwania,
-- przygotuj poprawne, docelowe `README.md` dla projektu,
-- przygotuj pierwszą pełną wersję implementacji zgodną z intencją opisaną w plikach `/intent`.
+Założenia interfejsu:
+- magazyn rzeczy nie jest listą zobowiązań,
+- propozycje to podpowiedzi, nie przydziały,
+- brak dziennych targetów, streaków i liczników presji,
+- rozróżnienie rzeczy z realnym terminem od „chciałbym zrobić”.
 
-Nie zmieniaj założeń biznesowych samodzielnie — jeśli pliki `/intent` są niejednoznaczne, zgłoś brakujące informacje.
+## Struktura
+
+- `index.html` — UI aplikacji
+- `styles.css` — minimalistyczne style
+- `app.js` — logika aplikacji i zapis do `localStorage`
+- `sw.js` — service worker do pracy offline
+- `manifest.webmanifest` — konfiguracja PWA
+- `AGENTS.md` — decyzje architektoniczne i ich uzasadnienie
+- `intent/` — dokumenty intencji biznesowej
+
+## Uruchomienie lokalne
+
+Ponieważ to aplikacja statyczna, wystarczy prosty serwer HTTP:
+
+```bash
+python3 -m http.server 4173
+```
+
+Następnie otwórz:
+
+`http://localhost:4173`
+
+## Deploy na GitHub Pages
+
+Projekt nie wymaga procesu build.
+Wystarczy publikacja zawartości repozytorium jako statycznej strony (branch deployment).
